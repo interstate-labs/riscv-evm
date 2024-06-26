@@ -1,0 +1,9 @@
+[package]
+name = "eth-riscv-interpreter"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+rvemu = { git = "https://github.com/lvella/rvemu.git", branch = "main" }
+goblin = "0.8.2"
