@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "eth-riscv-interpreter",
+    "eth-riscv-syscalls",
 ]
 resolver = "2"
 
@@ -10,3 +11,8 @@ edition = "2021"
 license = "Apache 2.0"
 
 [workspace.dependencies]
+rvemu = { git = "https://github.com/lvella/rvemu.git", branch = "main" }
+goblin = "0.8.2"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"

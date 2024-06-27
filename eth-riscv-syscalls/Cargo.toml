@@ -1,12 +1,8 @@
 [package]
-name = "eth-riscv-interpreter"
+name = "eth-riscv-syscalls"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-
-[dependencies]
-rvemu = { workspace = true }
-goblin = { workspace = true }
 
 [lints]
 workspace = true
