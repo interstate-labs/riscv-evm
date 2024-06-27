@@ -18,44 +18,41 @@ struct FixedMemoryAllocator<const SIZE: usize> {
 
 impl<const SIZE: usize> FixedMemoryAllocator<SIZE> {
   const fn new() -> Self {
-      Self {
-          mem_buffer: [0; SIZE],
-          next_available: Cell::new(0),
-      }
+    Self { mem_buffer: [0; SIZE], next_available: Cell::new(0) }
   }
 }
 
 unsafe impl<const SIZE: usize> GlobalAlloc for FixedMemoryAllocator<SIZE> {
   unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-      self.alloc_zeroed(layout)
+    self.alloc_zeroed(layout)
   }
 
   unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
-      // Start address of the allocation array:
-      let array_start = addr_of!(self.mem_buffer) as usize;
+    // Start address of the allocation array:
+    let array_start = addr_of!(self.mem_buffer) as usize;
 
-      // Address of the next free space:
-      let next_ptr = array_start + self.next_available.get();
+    // Address of the next free space:
+    let next_ptr = array_start + self.next_available.get();
 
-      // Align the pointer.
-      let aligned_ptr = (next_ptr + layout.align() - 1) & !(layout.align() - 1);
+    // Align the pointer.
+    let aligned_ptr = (next_ptr + layout.align() - 1) & !(layout.align() - 1);
 
-      // Where this allocated space ends:
-      let end_of_allocation_ptr = aligned_ptr + layout.size();
+    // Where this allocated space ends:
+    let end_of_allocation_ptr = aligned_ptr + layout.size();
 
-      // Calculates where the next allocation with start:
-      let new_next_available = end_of_allocation_ptr - array_start;
+    // Calculates where the next allocation with start:
+    let new_next_available = end_of_allocation_ptr - array_start;
 
-      if new_next_available <= SIZE {
-          self.next_available.set(new_next_available);
-          aligned_ptr as *mut u8
-      } else {
-          ptr::null_mut()
-      }
+    if new_next_available <= SIZE {
+      self.next_available.set(new_next_available);
+      aligned_ptr as *mut u8
+    } else {
+      ptr::null_mut()
+    }
   }
 
   unsafe fn dealloc(&self, _: *mut u8, _: Layout) {
-      // Do nothing. This allocator never deallocates.
+    // Do nothing. This allocator never deallocates.
   }
 }
 
@@ -64,9 +61,5 @@ static mut GLOBAL: FixedMemoryAllocator<{ 1024 * 1024 * 10 }> = FixedMemoryAlloc
 
 #[alloc_error_handler]
 fn alloc_error(layout: Layout) -> ! {
-  panic!(
-      "memory allocation of {} bytes with alignment {} failed",
-      layout.size(),
-      layout.align()
-  );
+  panic!("memory allocation of {} bytes with alignment {} failed", layout.size(), layout.align());
 }

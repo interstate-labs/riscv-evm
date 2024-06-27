@@ -1,11 +1,12 @@
 [workspace]
 members = [
-    "eth-riscv-interpreter", "eth-riscv-runtime",
+    "eth-riscv-interpreter",
     "eth-riscv-syscalls",
 ]
 exclude = [
     "sdk/contract-derive",
     "sdk/eth-riscv-runtime",
+    "examples/erc20",
 ]
 resolver = "2"
 
