@@ -1,0 +1,18 @@
+[package]
+name = "r55"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+revm = { workspace = true }
+rvemu = { workspace = true }
+eth-riscv-interpreter = { workspace = true }
+alloy-core = { workspace = true }
+alloy-sol-types = { workspace = true }
+
+[[bin]]
+name = "r55"
+
+[lints]
+workspace = true
