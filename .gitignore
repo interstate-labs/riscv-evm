@@ -11,5 +11,9 @@
 
 
 # Added by cargo
-
+*.o
+*.dtb
+*.dts
 target/
+examples/asm-runtime-elf/runtime
+examples/c-runtime-elf/sstore-and-sload-example
