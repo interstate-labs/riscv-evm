@@ -11,7 +11,7 @@ use revm::{
 fn compile_runtime(path: &str) -> Result<Vec<u8>, ()> {
   println!("Compiling runtime: {}", path);
   let status = Command::new("cargo")
-    .arg("+nightly")
+    .arg("+nightly-2024-02-01")
     .arg("build")
     .arg("-r")
     .arg("--lib")
@@ -55,7 +55,7 @@ fn compile_deploy(path: &str) -> Result<Vec<u8>, ()> {
   compile_runtime(path)?;
   println!("Compiling deploy: {}", path);
   let status = Command::new("cargo")
-    .arg("+nightly")
+    .arg("+nightly-2024-02-01")
     .arg("build")
     .arg("-r")
     .arg("--lib")
@@ -102,7 +102,7 @@ fn add_contract_to_db(db: &mut InMemoryDB, addr: Address, bytecode: Bytes) {
 }
 
 fn test_runtime_from_binary() {
-  let rv_bytecode = compile_runtime("erc20").unwrap();
+  let rv_bytecode = compile_runtime("examples/erc20").unwrap();
 
   const CONTRACT_ADDR: Address = address!("0d4a11d5EEaaC28EC3F61d100daF4d40471f1852");
   let mut db = InMemoryDB::default();
@@ -159,7 +159,7 @@ fn test_runtime(addr: &Address, db: &mut InMemoryDB) {
 }
 
 fn test_deploy() {
-  let rv_bytecode = compile_deploy("erc20").unwrap();
+  let rv_bytecode = compile_deploy("examples/erc20").unwrap();
   let mut db = InMemoryDB::default();
 
   let mut bytecode = vec![0xff];
